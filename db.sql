@@ -10,4 +10,4 @@ CREATE TABLE `employees` (
   `joining` date NOT NULL,
   `active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) AUTO_INCREMENT=6;
+);

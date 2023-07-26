@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from db import Session
+from model import Employee
 
 app = FastAPI()
 
@@ -8,14 +10,12 @@ async def root():
 
 @app.get('/employees')
 async def read_all():
-	pass
+	with Session() as db:
+		employees = db.query(Employee)
+		return employees.all()
 
 @app.get('/employees/{id}')
 async def read_path(id: int):
-	pass
-
-@app.get('/employees')
-async def read_query(id: int):
 	pass
 
 @app.post('/employees')
