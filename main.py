@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException
-from typing import Optional
+from typing import List, Optional
 from db import Session
-from model import Employee
+from model import Employee as EmployeeModel
+from schema import Employee as EmployeeSchema
 
 app = FastAPI()
 
@@ -9,24 +10,36 @@ app = FastAPI()
 async def root():
 	return {'message': 'Hello World'}
 
-@app.get('/employees')
+@app.get('/employees', response_model=List[EmployeeSchema])
 async def read(id: Optional[int] = None):
 	with Session() as db:
-		employees = db.query( Employee )
+		employees = db.query( EmployeeModel )
 
 		if id:
-			employees = employees.filter( Employee.id == id )
+			employees = employees.filter( EmployeeModel.id == id )
 
 		employees = employees.all()
 
 		if len(employees) == 0:
 			raise HTTPException(status_code=404, detail='No Employees Found')
 
-		return employees
+@app.post('/employees', response_model=EmployeeSchema)
+async def create(employee: EmployeeSchema):
+	with Session() as db:
+		try:
+			db_employee = EmployeeModel(**employee.dict())
 
-@app.post('/employees')
-async def create():
-	pass
+			db.add(db_employee)
+			db.commit()
+			db.refresh(db_employee)
+
+		except Exception as e:
+			print(e)
+			db.rollback()
+
+			raise HTTPException(status_code=400, detail='Employee Not Added')
+
+		return db_employee
 
 @app.put('/employees')
 async def update(id: int):
