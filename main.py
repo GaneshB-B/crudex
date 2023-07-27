@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from typing import Optional
 from db import Session
 from model import Employee
 
@@ -9,14 +10,19 @@ async def root():
 	return {'message': 'Hello World'}
 
 @app.get('/employees')
-async def read_all():
+async def read(id: Optional[int] = None):
 	with Session() as db:
-		employees = db.query(Employee)
-		return employees.all()
+		employees = db.query( Employee )
 
-@app.get('/employees/{id}')
-async def read_path(id: int):
-	pass
+		if id:
+			employees = employees.filter( Employee.id == id )
+
+		employees = employees.all()
+
+		if len(employees) == 0:
+			raise HTTPException(status_code=404, detail='No Employees Found')
+
+		return employees
 
 @app.post('/employees')
 async def create():
