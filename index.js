@@ -1,48 +1,49 @@
 print = console.log
 
-const addData = () => {
+const addData = async () => {
 	const tbl = document.getElementById('employees')
 
-	fetch( 'http://localhost:8000/employees' )
-		.then( res => res.json() )
-		.then( employees => employees.forEach(
-			employee => {
-				// print( employee )
+	const res = await fetch( 'http://localhost:8000/employees' )
 
-				const row = tbl.insertRow(-1)
+	const employees = await res.json()
 
-				const id = row.insertCell(-1)
-				id.innerText = employee.id
+	employees.forEach(
+		employee => {
+			// print( employee )
 
-				const f_name = row.insertCell(-1)
-				f_name.innerText = employee.f_name
+			const row = tbl.insertRow(-1)
 
-				const m_name = row.insertCell(-1)
-				m_name.innerText = employee.m_name
+			const id = row.insertCell(-1)
+			id.innerText = employee.id
 
-				const l_name = row.insertCell(-1)
-				l_name.innerText = employee.l_name
+			const f_name = row.insertCell(-1)
+			f_name.innerText = employee.f_name
 
-				const title = row.insertCell(-1)
-				title.innerText = employee.title
+			const m_name = row.insertCell(-1)
+			m_name.innerText = employee.m_name
 
-				const age = row.insertCell(-1)
-				age.innerText = employee.age
+			const l_name = row.insertCell(-1)
+			l_name.innerText = employee.l_name
 
-				const city = row.insertCell(-1)
-				city.innerText = employee.city
+			const title = row.insertCell(-1)
+			title.innerText = employee.title
 
-				const salary = row.insertCell(-1)
-				salary.innerText = employee.salary
+			const age = row.insertCell(-1)
+			age.innerText = employee.age
 
-				const joining = row.insertCell(-1)
-				joining.innerText = employee.joining
+			const city = row.insertCell(-1)
+			city.innerText = employee.city
 
-				const active = row.insertCell(-1)
-				active.innerText = employee.active ? 'yes' : 'no'
-			}
-		) )
+			const salary = row.insertCell(-1)
+			salary.innerText = employee.salary
 
+			const joining = row.insertCell(-1)
+			joining.innerText = employee.joining
+
+			const active = row.insertCell(-1)
+			active.innerText = employee.active ? 'yes' : 'no'
+		}
+	)
 }
 
 window.onload = addData
