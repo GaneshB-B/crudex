@@ -22,6 +22,8 @@ async def read(id: Optional[int] = None):
 
 		if len(employees) == 0:
 			raise HTTPException(status_code=404, detail='No Employees Found')
+		
+		return employees
 
 @app.post('/employees', response_model=EmployeeSchema)
 async def create(employee: EmployeeSchema):
