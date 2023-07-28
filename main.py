@@ -22,7 +22,7 @@ async def read(id: Optional[int] = None):
 
 		if len(employees) == 0:
 			raise HTTPException(status_code=404, detail='No Employees Found')
-		
+
 		return employees
 
 @app.post('/employees', response_model=EmployeeSchema)
@@ -43,9 +43,29 @@ async def create(employee: EmployeeSchema):
 
 		return db_employee
 
-@app.put('/employees')
-async def update(id: int):
-	pass
+@app.put('/employees', response_model=EmployeeSchema)
+async def update_employee(id: int, employee: EmployeeSchema):
+	with Session() as db:
+		db_employee = db.get(EmployeeModel, id)
+
+		if db_employee is None:
+			raise HTTPException(status_code=400, detail='Employee Not Found')
+
+		try:
+			employee_data = employee.dict(exclude_unset=True)
+
+			for key, value in employee_data.items():
+				setattr(db_employee, key, value)
+			db.add(db_employee)
+			db.commit()
+			db.refresh(db_employee)
+
+		except Exception as e:
+			print(e)
+			db.rollback()
+			raise HTTPException(status_code=400, detail="Employee Update Failed")
+
+	return db_employee
 
 @app.delete('/employees')
 async def delete(id: int):
