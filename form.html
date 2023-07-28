@@ -2,37 +2,38 @@
 <html lang="en">
 <head>
 	<link rel="stylesheet" href="style.css">
+  <script src="form.js"></script>
   <title>Employee Form</title>
 </head>
 <body>
   <h1>Add Employee</h1>
-  <form action="http://localhost:8000/employees" method="post">
-    <label for="f_name">First Name : </label>
-    <input type="text" name="f_name" placeholder="First Name">
+  <form id="employee">
+    <!-- <label for="f_name">First Name : </label> -->
+    <input type="text" name="f_name" placeholder="First Name" value="Ganesh" required>
     <br>
-    <label for="m_name">Middle Name : </label>
-    <input type="text" name="m_name" placeholder="Middle Name">
+    <!-- <label for="m_name">Middle Name : </label> -->
+    <input type="text" name="m_name" placeholder="Middle Name" value="Madhu">
     <br>
-    <label for="l_name">Last Name : </label>
-    <input type="text" name="l_name" placeholder="Last Name">
+    <!-- <label for="l_name">Last Name : </label> -->
+    <input type="text" name="l_name" placeholder="Last Name" value="Basa" required>
     <br>
-    <label for="title">Title : </label>
-    <input type="text" name="title" placeholder="Title">
+    <!-- <label for="title">Title : </label> -->
+    <input type="text" name="title" placeholder="Title" value="FS WD" required>
     <br>
-    <label for="age">Age : </label>
-    <input type="number" name="age" placeholder="Age">
+    <!-- <label for="age">Age : </label> -->
+    <input type="number" name="age" placeholder="Age" value=25 required>
     <br>
-    <label for="city">City : </label>
-    <input type="text" name="city" placeholder="City">
+    <!-- <label for="city">City : </label> -->
+    <input type="text" name="city" placeholder="City" value="Pune" required>
     <br>
-    <label for="salary">Salary : </label>
-    <input type="number" name="salary" placeholder="Salary">
+    <!-- <label for="salary">Salary : </label> -->
+    <input type="number" name="salary" placeholder="Salary" value=25000>
     <br>
-    <label for="joining">Joining Date : </label>
-    <input type="date" name="joining">
+    <!-- <label for="joining">Joining Date : </label> -->
+    <input type="date" name="joining" required>
     <br>
-    <label for="active">Active : </label>
-    <input type="checkbox" name="active">
+    <!-- <label for="active">Active : </label> -->
+    <input type="checkbox" name="active" required>
     <br>
     <input type="submit" value="Submit">
   </form>
